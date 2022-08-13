@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/models/todo.dart';
+
+import '../models/todo.dart';
+import '../widgets/todo_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,12 +11,52 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<Todo> futureTodo;
+  // late Future<Todo> futureTodo;
+  final TextEditingController _textFieldController = TextEditingController();
+  final List<Todo> _todos = <Todo>[];
+
+  void _handleTodoChange(Todo todo) {
+    setState(() {
+      todo.completed = !todo.completed;
+    });
+  }
+
+  void _addTodoItem(String title) {
+    setState(() {
+      _todos.add(Todo(title: title, completed: false));
+    });
+    _textFieldController.clear();
+  }
+
+  Future<void> _displayDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add a new todo item'),
+          content: TextField(
+            controller: _textFieldController,
+            decoration: const InputDecoration(hintText: 'Type your new todo'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Add'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _addTodoItem(_textFieldController.text);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-    futureTodo = fetchTodo();
+    // futureTodo = fetchTodo();
   }
 
   @override
@@ -22,21 +64,21 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Tous Doux List"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: _displayDialog,
+          ),
+        ],
       ),
-      body: Center(
-        child: FutureBuilder<Todo>(
-          future: futureTodo,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!.title);
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-
-            // By default, show a loading spinner.
-            return const CircularProgressIndicator();
-          },
-        ),
+      body: ListView(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        children: _todos.map((Todo todo) {
+          return TodoItem(
+            todo: todo,
+            onTodoChanged: _handleTodoChange,
+          );
+        }).toList(),
       ),
     );
   }
