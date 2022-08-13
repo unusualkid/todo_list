@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:todo_list/screens/home_page.dart';
+import 'package:todo_list/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,14 +13,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  final String title = "Todo list";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Todo List',
-        theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: HomePage());
+        title: title, theme: AppTheme.lightTheme, home: HomePage());
   }
 }
