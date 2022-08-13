@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:todo_list/models/todo.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,9 +39,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  Future<http.Response> fetchTodos() {
-    return http.get(Uri.parse('https://jsonplaceholder.typicode.com/todos'));
   }
 }
