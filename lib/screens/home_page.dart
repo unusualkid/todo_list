@@ -40,6 +40,12 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: <Widget>[
             TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
               child: const Text('Add'),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -72,14 +78,26 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(vertical: 8.0),
-        children: _todos.map((Todo todo) {
-          return TodoItem(
-            todo: todo,
-            onTodoChanged: _handleTodoChange,
-          );
-        }).toList(),
+      body: Center(
+        child: FutureBuilder<List<Todo>>(
+          future: fetchTodos(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                children: snapshot.data!.map((Todo todo) {
+                  return TodoItem(
+                    todo: todo,
+                    onTodoChanged: _handleTodoChange,
+                  );
+                }).toList(),
+              );
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }
