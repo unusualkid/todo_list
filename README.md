@@ -9,7 +9,7 @@ A new Flutter project that displays an existing todo list using [API from JSON P
 - Select a device from the Device Selector area
 - Click F5 to debug
 
-# How to use
+## How to use
 
 - Click on a todo item to cross it off if it is already completed.
 - Click on a already completed item to remove the cross.
