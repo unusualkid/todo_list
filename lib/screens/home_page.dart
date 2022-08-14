@@ -11,9 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // late Future<Todo> futureTodo;
   final TextEditingController _textFieldController = TextEditingController();
-  final List<Todo> _todos = <Todo>[];
+  List<Todo> _todos = <Todo>[];
 
   void _handleTodoChange(Todo todo) {
     setState(() {
@@ -23,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   void _addTodoItem(String title) {
     setState(() {
-      _todos.add(Todo(title: title, completed: false));
+      _todos.insert(0, Todo(title: title, completed: false));
     });
     _textFieldController.clear();
   }
@@ -55,8 +54,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    Future.delayed(Duration.zero, () async {
+      _todos = await fetchTodos();
+    });
     super.initState();
-    // futureTodo = fetchTodo();
   }
 
   @override

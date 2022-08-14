@@ -2,12 +2,15 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-Future<Todo> fetchTodo() async {
-  final response =
-      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/todos/'));
+Future<List<Todo>> fetchTodos() async {
+  final response = await http
+      .get(Uri.parse('https://jsonplaceholder.typicode.com/todos?userId=1'));
 
   if (response.statusCode == 200) {
-    return Todo.fromJson(jsonDecode(response.body));
+    List<dynamic> parsedListJson = jsonDecode(response.body);
+    List<Todo> itemsList =
+        List<Todo>.from(parsedListJson.map((i) => Todo.fromJson(i)));
+    return List.from(itemsList.reversed);
   } else {
     throw Exception('Failed to load todo');
   }
