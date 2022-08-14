@@ -78,26 +78,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: FutureBuilder<List<Todo>>(
-          future: fetchTodos(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                children: snapshot.data!.map((Todo todo) {
-                  return TodoItem(
-                    todo: todo,
-                    onTodoChanged: _handleTodoChange,
-                  );
-                }).toList(),
-              );
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
+      body: ListView(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        children: _todos.map((Todo todo) {
+          return TodoItem(
+            todo: todo,
+            onTodoChanged: _handleTodoChange,
+          );
+        }).toList(),
       ),
     );
   }
