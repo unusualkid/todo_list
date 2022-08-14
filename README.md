@@ -1,16 +1,16 @@
 # todo_list
 
-A new Flutter project.
+A new Flutter project that displays an existing todo list using [API from JSON Placeholder](https://jsonplaceholder.typicode.com/todos?userId=1), and allows user to add todo list entry to it.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- Follow [flutter's official documentation](https://docs.flutter.dev/get-started/install) to set up your environment
+- Run `flutter doctor` to check you have at least one device set up
+- Select a device from the Device Selector area
+- Click F5 to debug
 
-A few resources to get you started if this is your first Flutter project:
+# How to use
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Click on a todo item to cross it off if it is already completed.
+- Click on a already completed item to remove the cross.
+- Click on the top right + button to add a new entry item.
